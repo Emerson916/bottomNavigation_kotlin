@@ -9,9 +9,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var btnHome : Button
     lateinit var btnCliente : Button
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
 
     lateinit var bottomNavigation: BottomNavigationView
+    lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,22 +34,29 @@ class MainActivity : AppCompatActivity() {
 
        //setFragment(homeFragment)
 
+        //Buttons
         btnHome  = findViewById(R.id.btn_home)
         btnCliente = findViewById(R.id.btn_clientes)
         btnBuscar = findViewById(R.id.btn_buscar)
 
+        //BottomNavigation
         bottomNavigation = findViewById(R.id.bottomNavegation)
 
+        navigationView = findViewById(R.id.navigationView)
+
+        //Toolbar
         toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
 
         toolbar.setTitle("Teste Drawer")
 
-
+        //Fragmentos
         buscarFragment = BuscarFragment()
         homeFragment = HomeFragment()
         clientesFragment = ClientesFragment()
+
+        //clicks nos buttons -- eventos
 
         btnHome.setOnClickListener{
             setFragment(homeFragment)
@@ -61,9 +70,14 @@ class MainActivity : AppCompatActivity() {
             setFragment(buscarFragment)
         }
 
-        bottomNavigation.setOnItemSelectedListener {
-            onNavigationItemSelected(it)
+        //Evento de click do bottom navigation
+        bottomNavigation.setOnItemSelectedListener { item ->
+            onNavigationItemSelected(item)
         }
+
+        //Evento de click do navigation
+        navigationView.setNavigationItemSelectedListener()
+
     }
 
 
@@ -75,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-     fun onNavigationItemSelected(item: MenuItem): Boolean {
+     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId) {
             R.id.id_home -> {
